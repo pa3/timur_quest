@@ -1,30 +1,31 @@
 package me.pa3.quest {
-	import flash.display.DisplayObjectContainer;
 
-	import me.pa3.quest.commands.GoToLocationCommand;
-	import me.pa3.quest.events.GoToLocationEvent;
-	import me.pa3.quest.models.BackgroundModel;
-	import me.pa3.quest.views.GamePlayView;
-	import me.pa3.quest.views.GamePlayViewMediator;
-	import me.pa3.quest.vos.Location;
+import me.pa3.quest.commands.GoToLocationCommand;
+import me.pa3.quest.events.GoToLocationEvent;
+import me.pa3.quest.models.BackgroundModel;
+import me.pa3.quest.views.GamePlayView;
+import me.pa3.quest.views.GamePlayViewMediator;
 
-	import org.robotlegs.mvcs.Context;
+import org.robotlegs.mvcs.Context;
+import org.robotlegs.mvcs.StarlingContext;
 
-	public class QuestContext extends Context {
+import starling.display.DisplayObjectContainer;
 
-		public function QuestContext(contextView:DisplayObjectContainer) {
-			super(contextView);
-		}
+public class QuestContext extends StarlingContext {
 
-		override public function startup():void {
-			super.startup();
+    public function QuestContext(contextView:DisplayObjectContainer) {
+        super(contextView);
+    }
 
-			injector.mapSingleton(BackgroundModel);
+    override public function startup():void {
+        super.startup();
 
-			commandMap.mapEvent(GoToLocationEvent.EVENT_TYPE, GoToLocationCommand);
+        injector.mapSingleton(BackgroundModel);
 
-			mediatorMap.mapView(GamePlayView, GamePlayViewMediator);
+        commandMap.mapEvent(GoToLocationEvent.EVENT_TYPE, GoToLocationCommand);
 
-		}
-	}
+        mediatorMap.mapView(GamePlayView, GamePlayViewMediator);
+
+    }
+}
 }

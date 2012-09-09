@@ -1,23 +1,26 @@
 package me.pa3.quest.commands {
-	import flash.display.DisplayObject;
 
-	import me.pa3.quest.events.GoToLocationEvent;
-	import me.pa3.quest.events.ShowLocationEvent;
-	import me.pa3.quest.models.BackgroundModel;
+import me.pa3.quest.events.GoToLocationEvent;
+import me.pa3.quest.events.ShowLocationEvent;
+import me.pa3.quest.models.BackgroundModel;
+import me.pa3.quest.views.TimurView;
 
-	import org.robotlegs.mvcs.Command;
+import org.robotlegs.mvcs.StarlingCommand;
 
-	public class GoToLocationCommand extends Command {
+import starling.display.DisplayObject;
 
-		[Inject]
-		public var event:GoToLocationEvent;
+public class GoToLocationCommand extends StarlingCommand {
 
-		[Inject]
-		public var backgroundModel:BackgroundModel;
+    [Inject]
+    public var event:GoToLocationEvent;
 
-		override public function execute():void {
-			var background:DisplayObject = backgroundModel.getBackgroundById(event.location.backgroundId);
-			dispatch(new ShowLocationEvent(background));
-		}
-	}
+    [Inject]
+    public var backgroundModel:BackgroundModel;
+
+    override public function execute():void {
+        var background:DisplayObject = backgroundModel.getBackgroundById(event.location.backgroundId);
+        var timur:TimurView = new TimurView();
+        dispatch(new ShowLocationEvent(background, Vector.<DisplayObject>([timur])));
+    }
+}
 }

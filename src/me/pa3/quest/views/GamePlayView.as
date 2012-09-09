@@ -1,17 +1,23 @@
 package me.pa3.quest.views {
-	import flash.display.DisplayObject;
-	import flash.display.Sprite;
 
-	public class GamePlayView extends Sprite{
+import me.pa3.quest.utils.Globals;
 
-		private var _currentLocation:LocationView;
+import starling.display.DisplayObject;
+import starling.display.Sprite;
 
-		public function showLocation(background:DisplayObject):void {
-			if (_currentLocation && contains(_currentLocation)) {
-				removeChild(_currentLocation);
-			}
-			addChild(new LocationView(background));
-		}
+public class GamePlayView extends Sprite {
 
-	}
+    private var _currentLocation:LocationView;
+
+    public function showLocation(background:DisplayObject, actors:Vector.<DisplayObject>):void {
+        if (_currentLocation && contains(_currentLocation)) {
+            removeChild(_currentLocation);
+        }
+        var locationView:LocationView = new LocationView(background, actors);
+        locationView.scaleX = Globals.SCALE_X;
+        locationView.scaleY = Globals.SCALE_Y;
+        addChild(locationView);
+    }
+
+}
 }

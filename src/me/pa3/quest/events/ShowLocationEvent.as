@@ -1,19 +1,27 @@
 package me.pa3.quest.events {
-	import flash.display.DisplayObject;
-	import flash.events.Event;
+import flash.events.Event;
 
-	public class ShowLocationEvent extends Event {
+import starling.display.DisplayObject;
 
-		public static const EVENT_TYPE:String = "ShowLocationEvent";
-		private var _background:DisplayObject;
+public class ShowLocationEvent extends Event {
 
-		public function ShowLocationEvent(background:DisplayObject) {
-			super(EVENT_TYPE);
-			_background = background;
-		}
+    public static const EVENT_TYPE:String = "ShowLocationEvent";
+    private var _background:DisplayObject;
+    private var _actors:Vector.<DisplayObject>;
 
-		public function get background():DisplayObject {
-			return _background;
-		}
-	}
+
+    public function ShowLocationEvent(background:DisplayObject, actors:Vector.<DisplayObject>) {
+        super(EVENT_TYPE);
+        _background = background;
+        _actors = actors;
+    }
+
+    public function get background():DisplayObject {
+        return _background;
+    }
+
+    public function get actors():Vector.<DisplayObject> {
+        return _actors;
+    }
+}
 }
