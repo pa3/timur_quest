@@ -5,6 +5,8 @@ import me.pa3.quest.events.GoToLocationEvent;
 import me.pa3.quest.models.BackgroundModel;
 import me.pa3.quest.views.GamePlayView;
 import me.pa3.quest.views.GamePlayViewMediator;
+import me.pa3.quest.views.TimurView;
+import me.pa3.quest.views.TimurViewMediator;
 
 import org.robotlegs.mvcs.Context;
 import org.robotlegs.mvcs.StarlingContext;
@@ -25,6 +27,7 @@ public class QuestContext extends StarlingContext {
         commandMap.mapEvent(GoToLocationEvent.EVENT_TYPE, GoToLocationCommand);
 
         mediatorMap.mapView(GamePlayView, GamePlayViewMediator);
+        mediatorMap.mapView(TimurView, TimurViewMediator);
 
     }
 }
