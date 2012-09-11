@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:37ea3fccc1691516232160ca868b2216$ -->
+<TextureAtlas imagePath="atlas.png">
+    <SubTexture name="Timur_walk_L_001" x="2" y="964" width="165" height="492" frameX="-107" frameY="-1" frameWidth="361" frameHeight="500"/>
+    <SubTexture name="Timur_walk_L_002" x="2" y="478" width="213" height="484" frameX="-88" frameY="-9" frameWidth="361" frameHeight="500"/>
+    <SubTexture name="Timur_walk_L_003" x="267" y="2" width="261" height="476" frameX="-60" frameY="-17" frameWidth="361" frameHeight="500"/>
+    <SubTexture name="Timur_walk_L_004" x="743" y="2" width="203" height="476" frameX="-81" frameY="-15" frameWidth="361" frameHeight="500"/>
+    <SubTexture name="Timur_walk_L_005" x="386" y="480" width="121" height="482" frameX="-130" frameY="-10" frameWidth="361" frameHeight="500"/>
+    <SubTexture name="Timur_walk_L_006" x="123" y="1458" width="101" height="486" frameX="-132" frameY="-8" frameWidth="361" frameHeight="500"/>
+    <SubTexture name="Timur_walk_L_007" x="217" y="480" width="167" height="494" frameX="-108" frameY="0" frameWidth="361" frameHeight="500"/>
+    <SubTexture name="Timur_walk_L_008" x="530" y="2" width="211" height="482" frameX="-87" frameY="-11" frameWidth="361" frameHeight="500"/>
+    <SubTexture name="Timur_walk_L_009" x="2" y="2" width="263" height="474" frameX="-58" frameY="-19" frameWidth="361" frameHeight="500"/>
+    <SubTexture name="Timur_walk_L_010" x="743" y="480" width="203" height="472" frameX="-82" frameY="-18" frameWidth="361" frameHeight="500"/>
+    <SubTexture name="Timur_walk_L_011" x="2" y="1458" width="119" height="486" frameX="-130" frameY="-7" frameWidth="361" frameHeight="500"/>
+    <SubTexture name="Timur_walk_L_012" x="509" y="486" width="107" height="484" frameX="-129" frameY="-9" frameWidth="361" frameHeight="500"/>
+</TextureAtlas>
