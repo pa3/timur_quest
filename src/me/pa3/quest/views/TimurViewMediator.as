@@ -1,15 +1,17 @@
 package me.pa3.quest.views {
-import flash.geom.Point;
+	import flash.geom.Point;
 
-import org.robotlegs.mvcs.StarlingMediator;
+	import me.pa3.quest.vos.Path;
 
-public class TimurViewMediator extends StarlingMediator{
+	import org.robotlegs.mvcs.StarlingMediator;
 
-    [Inject]
-    public var view:TimurView;
+	public class TimurViewMediator extends  StarlingMediator {
 
-    override public function onRegister():void {
-        view.walkTo(new Point(500,500));
-    }
-}
+		[Inject]
+		public var view:TimurView;
+
+		override public function onRegister():void {
+			view.walkThePath(new Path(Vector.<Point>([new Point(500,500), new Point(500,100), new Point(100,500)])));
+		}
+	}
 }
