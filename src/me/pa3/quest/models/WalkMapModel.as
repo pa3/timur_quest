@@ -1,6 +1,8 @@
 package me.pa3.quest.models {
 	import flash.geom.Point;
 
+	import me.pa3.quest.utils.BoxNavigator;
+
 	import me.pa3.quest.vos.Box;
 	import me.pa3.quest.vos.BoxedPoint;
 	import me.pa3.quest.vos.Gate;
@@ -84,7 +86,7 @@ package me.pa3.quest.models {
 		private function createPath(points:Vector.<BoxedPoint>):Path {
 			var wayPoints:Vector.<WayPoint> = new Vector.<WayPoint>();
 			for each (var aPoint:BoxedPoint in points) {
-				wayPoints.push(new WayPoint(aPoint.point, aPoint.box.getScaleAt(aPoint.point));
+				wayPoints.push(new WayPoint(aPoint.point, aPoint.box.getScaleAt(aPoint.point)));
 			}
 			return new Path(wayPoints);
 		}
