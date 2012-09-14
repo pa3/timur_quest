@@ -16,7 +16,13 @@ package me.pa3.quest.models {
 		private var _boxes:Vector.<Box>;
 		private var _navigator:BoxNavigator;
 
-		private function findPath(startPoint:Point, endPoint:Point):Path {
+
+		public function set boxes(value:Vector.<Box>):void {
+			_boxes = value;
+			_navigator = new BoxNavigator(_boxes);
+		}
+
+		public function findPath(startPoint:Point, endPoint:Point):Path {
 
 			var startPointPlacedInBox:BoxedPoint = placePointInBox(startPoint);
 			var startBox:Box = startPointPlacedInBox.box;

@@ -3,7 +3,7 @@ package me.pa3.quest.vos {
 
 	public class Box {
 
-		private var _vertexes:Vector.<BoxVertex>;
+		private var _vertexes:Vector.<BoxVertex> = new Vector.<BoxVertex>();
 		private var _upperRightIndex:int;
 		private var _lowerLeftIndex:int;
 		private var _lowerRightIndex:int;
