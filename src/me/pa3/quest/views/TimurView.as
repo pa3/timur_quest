@@ -1,17 +1,20 @@
 package me.pa3.quest.views {
 	import flash.geom.Point;
+	import flash.geom.Rectangle;
 
 	import me.pa3.quest.events.WalkThePathEvent;
 
 	import me.pa3.quest.events.WalkThePathEvent;
 
 	import me.pa3.quest.vos.Path;
+	import me.pa3.quest.vos.WayPoint;
 
 	import starling.animation.Transitions;
 
 	import starling.animation.Tween;
 
 	import starling.core.Starling;
+	import starling.display.DisplayObject;
 	import starling.display.MovieClip;
 	import starling.display.Sprite;
 	import starling.events.Event;
@@ -45,9 +48,10 @@ package me.pa3.quest.views {
 
 		private function walkToNextPoint():void {
 			if (_currentPath && _currentPath.hasMorePoints()) {
-				var nextPoint:Point = _currentPath.getNextPoint();
+				var nextWayPoint:WayPoint = _currentPath.getNextPoint();
 				var tween:Tween = new Tween(this, 2, Transitions.EASE_IN);
-				tween.moveTo(nextPoint.x, nextPoint.y);
+				tween.moveTo(nextWayPoint.point.x, nextWayPoint.point.y);
+				tween.scaleTo(nextWayPoint.scale);
 				tween.onComplete = walkToNextPoint;
 				Starling.juggler.add(tween);
 			}
@@ -71,6 +75,5 @@ package me.pa3.quest.views {
 			walkAnimation = new MovieClip(atlas.getTextures("Timur_walk"), 10);
 			showWalkAnimation();
 		}
-
 	}
 }
