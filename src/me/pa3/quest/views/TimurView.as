@@ -5,8 +5,9 @@ package me.pa3.quest.views {
 	import me.pa3.quest.events.WalkThePathEvent;
 
 	import me.pa3.quest.events.WalkThePathEvent;
+import me.pa3.quest.utils.InputScaler;
 
-	import me.pa3.quest.vos.Path;
+import me.pa3.quest.vos.Path;
 	import me.pa3.quest.vos.WayPoint;
 
 	import starling.animation.Transitions;
@@ -21,7 +22,10 @@ package me.pa3.quest.views {
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
 
-	public class TimurView extends Sprite {
+	public class TimurView extends ActorView {
+
+        [Inject]
+        public var inputScaler:InputScaler;
 
 		[Embed(source="/assets/actors/timur/walk.png")]
 		private const WALK_SPRITE_SHEET:Class;
@@ -34,6 +38,7 @@ package me.pa3.quest.views {
 		private var _currentPath:Path;
 
 		public function TimurView() {
+            super("timur");
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
 
@@ -49,7 +54,7 @@ package me.pa3.quest.views {
 		private function walkToNextPoint():void {
 			if (_currentPath && _currentPath.hasMorePoints()) {
 				var nextWayPoint:WayPoint = _currentPath.getNextPoint();
-				var tween:Tween = new Tween(this, 2, Transitions.EASE_IN);
+				var tween:Tween = new Tween(this, 0);
 				tween.moveTo(nextWayPoint.point.x, nextWayPoint.point.y);
 				tween.scaleTo(nextWayPoint.scale);
 				tween.onComplete = walkToNextPoint;
@@ -63,7 +68,10 @@ package me.pa3.quest.views {
 				Starling.juggler.remove(_currentAnimation);
 			}
 			_currentAnimation = animation;
+            _currentAnimation.x = - _currentAnimation.width/2;
+            _currentAnimation.y = -_currentAnimation.height;
 			addChild(_currentAnimation);
+
 			Starling.juggler.add(_currentAnimation);
 		}
 

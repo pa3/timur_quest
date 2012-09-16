@@ -9,7 +9,7 @@ package me.pa3.quest.views {
 
 		private var _currentLocation:LocationView;
 
-		public function showLocation(background:DisplayObject, actors:Vector.<DisplayObject>):void {
+		public function showLocation(background:DisplayObject, actors:Vector.<ActorView>):void {
 			if (_currentLocation && contains(_currentLocation)) {
 				removeChild(_currentLocation);
 			}

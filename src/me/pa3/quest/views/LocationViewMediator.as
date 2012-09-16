@@ -1,7 +1,7 @@
 package me.pa3.quest.views {
 	import flash.events.MouseEvent;
 
-	import me.pa3.quest.events.GoToPointEvent;
+	import me.pa3.quest.events.WalkToPointEvent;
 
 	import me.pa3.quest.events.LocationClickedEvent;
 
@@ -18,7 +18,7 @@ package me.pa3.quest.views {
 		}
 
 		private function onMouseClick(e:LocationClickedEvent):void {
-			dispatch(new GoToPointEvent(e.point));
+			dispatch(new WalkToPointEvent("timur", view.getActorPosition("timur"), e.point));
 		}
 	}
 }

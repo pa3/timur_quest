@@ -62,18 +62,20 @@ package me.pa3.quest.vos {
 
 		public function get clockwiseSortedVertexes():Vector.<BoxVertex> {
 			var result:Vector.<BoxVertex> = _vertexes.concat();
-			var centerPoint:BoxVertex = new BoxVertex(0, 0);
+			var centerPoint:Point = new Point(0, 0);
 
 			for each (var aVertex:BoxVertex in result) {
-				centerPoint.add(aVertex);
+				centerPoint = centerPoint.add(aVertex);
 			}
-			centerPoint.setTo(centerPoint.x/result.length, centerPoint.y/length);
+            centerPoint.setTo(centerPoint.x/result.length, centerPoint.y/result.length);
 
 			result.sort(function (v1:BoxVertex, v2:BoxVertex):Number {
 				return ((v1.x - centerPoint.x)*(v2.y - centerPoint.y) - (v2.x - centerPoint.x)*(v1.y - centerPoint.y));
 			});
-			return result;
-		}
+
+            return result;
+        }
+
 
 		public function getNearestPoint(target:Point):Point {
 

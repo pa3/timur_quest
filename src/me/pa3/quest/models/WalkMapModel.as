@@ -1,9 +1,12 @@
 package me.pa3.quest.models {
 	import flash.geom.Point;
 
-	import me.pa3.quest.utils.BoxNavigator;
+import me.pa3.quest.events.WalkMapUpdated;
 
-	import me.pa3.quest.vos.Box;
+import me.pa3.quest.utils.BoxNavigator;
+import me.pa3.quest.vos.Box;
+
+import me.pa3.quest.vos.Box;
 	import me.pa3.quest.vos.BoxedPoint;
 	import me.pa3.quest.vos.Gate;
 	import me.pa3.quest.vos.Path;
@@ -16,14 +19,13 @@ package me.pa3.quest.models {
 		private var _boxes:Vector.<Box>;
 		private var _navigator:BoxNavigator;
 
-
 		public function set boxes(value:Vector.<Box>):void {
 			_boxes = value;
 			_navigator = new BoxNavigator(_boxes);
+            dispatch(new WalkMapUpdated(_boxes));
 		}
 
 		public function findPath(startPoint:Point, endPoint:Point):Path {
-
 			var startPointPlacedInBox:BoxedPoint = placePointInBox(startPoint);
 			var startBox:Box = startPointPlacedInBox.box;
 			var startPoint:Point = startPointPlacedInBox.point;

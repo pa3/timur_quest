@@ -10,6 +10,10 @@ package me.pa3.quest.vos {
 			_currentPoint = -1;
 		}
 
+        public function get waypoints():Vector.<WayPoint> {
+            return _waypoints;
+        }
+
 		public function hasMorePoints():Boolean {
 			return _currentPoint < _waypoints.length - 1;
 		}
