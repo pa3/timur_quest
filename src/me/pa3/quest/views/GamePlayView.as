@@ -9,11 +9,11 @@ package me.pa3.quest.views {
 
 		private var _currentLocation:LocationView;
 
-		public function showLocation(background:DisplayObject, actors:Vector.<ActorView>):void {
+		public function showLocation(backgroundLayers:Vector.<DisplayObject>, actors:Vector.<ActorView>):void {
 			if (_currentLocation && contains(_currentLocation)) {
 				removeChild(_currentLocation);
 			}
-			var locationView:LocationView = new LocationView(background, actors);
+			var locationView:LocationView = new LocationView(backgroundLayers, actors);
 			locationView.scaleX = Globals.SCALE_X;
 			locationView.scaleY = Globals.SCALE_Y;
 			addChild(locationView);

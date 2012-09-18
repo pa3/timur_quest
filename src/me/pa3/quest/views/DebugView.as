@@ -5,14 +5,17 @@ import me.pa3.quest.vos.Box;
 import me.pa3.quest.vos.BoxVertex;
 import me.pa3.quest.vos.Path;
 
+import starling.display.DisplayObject;
+import starling.display.Quad;
+
 import starling.display.Sprite;
 
 public class DebugView extends Sprite {
     [Inject]
     public var inputScaler:InputScaler;
 
-    private var _walkPathLines:Vector.<Line> = new Vector.<Line>();
-    private var _walkMapLines:Vector.<Line> = new Vector.<Line>();
+    private var _walkPathLines:Vector.<DisplayObject> = new Vector.<DisplayObject>();
+    private var _walkMapLines:Vector.<DisplayObject> = new Vector.<DisplayObject>();
 
     public function drawPath(path:Path):void {
         clear(_walkPathLines);
@@ -24,7 +27,13 @@ public class DebugView extends Sprite {
                 line.y = path.waypoints[i - 1].point.y;
                 line.thickness = 3;
                 addChild(line);
+                var wayPoint:Quad = new Quad(11,11,0);
+                wayPoint.x = path.waypoints[i - 1].point.x-5;
+                wayPoint.y = path.waypoints[i - 1].point.y-5;
+                addChild(wayPoint);
+
                 _walkPathLines.push(line);
+                _walkPathLines.push(wayPoint);
             }
         }
     }
@@ -55,13 +64,13 @@ public class DebugView extends Sprite {
         }
     }
 
-    private function clear(lines:Vector.<Line>):void {
-        for each (var line:Line in lines) {
-            if (contains(line)) {
-                removeChild(line);
+    private function clear(displayObjects:Vector.<DisplayObject>):void {
+        for each (var displayObject:DisplayObject in displayObjects) {
+            if (contains(displayObject)) {
+                removeChild(displayObject);
             }
         }
-        lines.length = 0;
+        displayObjects.length = 0;
     }
 
 

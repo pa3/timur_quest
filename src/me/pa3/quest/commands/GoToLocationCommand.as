@@ -27,10 +27,10 @@ public class GoToLocationCommand extends StarlingCommand {
 
     override public function execute():void {
 
-        var background:DisplayObject = backgroundModel.getBackgroundById(event.location.backgroundId);
+        var backgroundLayers:Vector.<DisplayObject> = backgroundModel.getBackgroundLayersById(event.location.backgroundId);
 
         var timur:TimurView = new TimurView();
-        dispatch(new ShowLocationEvent(background, Vector.<ActorView>([timur])));
+        dispatch(new ShowLocationEvent(backgroundLayers, Vector.<ActorView>([timur])));
 
         walkMapModel.boxes = Vector.<Box>(
                 [

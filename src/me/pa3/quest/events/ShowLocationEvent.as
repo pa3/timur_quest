@@ -8,18 +8,19 @@ import starling.display.DisplayObject;
 public class ShowLocationEvent extends Event {
 
     public static const EVENT_TYPE:String = "ShowLocationEvent";
-    private var _background:DisplayObject;
+    private var _backgroundLayers:Vector.<DisplayObject>;
     private var _actors:Vector.<ActorView>;
 
 
-    public function ShowLocationEvent(background:DisplayObject, actors:Vector.<ActorView>) {
+    public function ShowLocationEvent(backgroundLayers:Vector.<DisplayObject>, actors:Vector.<ActorView>) {
         super(EVENT_TYPE);
-        _background = background;
+        _backgroundLayers = backgroundLayers;
         _actors = actors;
     }
 
-    public function get background():DisplayObject {
-        return _background;
+
+    public function get backgroundLayers():Vector.<DisplayObject> {
+        return _backgroundLayers;
     }
 
     public function get actors():Vector.<ActorView> {

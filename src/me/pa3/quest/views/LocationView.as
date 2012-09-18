@@ -19,18 +19,20 @@ import starling.display.DisplayObject;
 
 	public class LocationView extends Sprite {
 
-		private var _background:DisplayObject;
+		private var _backgroundLayers:Vector.<DisplayObject>;
 		private var _actors:Vector.<ActorView>;
         private var _actorsById:HashMap;
 
-		public function LocationView(background:DisplayObject, actors:Vector.<ActorView>) {
-			_background = background;
+		public function LocationView(backgroundLayers:Vector.<DisplayObject>, actors:Vector.<ActorView>) {
+            _backgroundLayers = backgroundLayers;
             _actors = actors;
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 
 		private function onAddedToStage(event:Event):void {
-			addChild(_background);
+            for each (var layer:DisplayObject in _backgroundLayers) {
+                addChild(layer);
+            }
             _actorsById = new HashMap();
 			for each (var anActor:ActorView in _actors) {
 				anActor.touchable = false;
@@ -38,8 +40,8 @@ import starling.display.DisplayObject;
                 _actorsById.set(anActor.id, anActor);
 			}
             addChild(new DebugView());
-			_background.addEventListener(TouchEvent.TOUCH, onTouch);
-
+            // TODO: Если слои перестанут быть размером во весь экран - надо будет переделать.
+			_backgroundLayers[_backgroundLayers.length-1].addEventListener(TouchEvent.TOUCH, onTouch);
 		}
 
 

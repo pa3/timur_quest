@@ -13,7 +13,7 @@ public class GamePlayViewMediator extends StarlingMediator {
     }
 
     private function showLocationHandler(e:ShowLocationEvent):void {
-        view.showLocation(e.background, e.actors);
+        view.showLocation(e.backgroundLayers, e.actors);
     }
 }
 }
