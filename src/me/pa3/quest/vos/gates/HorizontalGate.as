@@ -1,29 +1,27 @@
-package me.pa3.quest.utils {
+package me.pa3.quest.vos.gates {
 	import flash.geom.Point;
 
-	import me.pa3.quest.vos.Gate;
-
-	public class VerticalGate extends Gate {
-		public function VerticalGate(topPoint:Point, bottomPoint:Point) {
-			super(topPoint, bottomPoint);
+	public class HorizontalGate extends Gate {
+		public function HorizontalGate(leftPoint:Point, rightPoint:Point) {
+			super(leftPoint, rightPoint);
 		}
 
 		override public function getMiddlePointToPassGates(startPoint:Point, endPoint:Point):Point {
-			var resultY:Number = 0.0;
+			var resultX:Number = 0;
 			if (startPoint.x == endPoint.x || startPoint.y == endPoint.y) {
-				resultY = endPoint.y;
+				resultX = endPoint.x;
 			} else {
 				var lineK:Number = (startPoint.y - endPoint.y)/(startPoint.x - endPoint.x);
 				var lineB:Number = (endPoint.y*startPoint.x - startPoint.y*endPoint.x)/(startPoint.x - endPoint.x);
-				resultY = lineK*point1.x + lineB;
+				resultX = (point1.y/lineK - lineB/lineK);
 			}
 
-			if (resultY > point2.y) {
+			if (resultX > point2.x) {
 				return point2.clone();
-			} else if (resultY < point1.y) {
+			} else if (resultX < point1.x) {
 				return point1.clone();
 			} else {
-				return new Point(point1.x, resultY);
+				return new Point(resultX, point1.y);
 			}
 		}
 	}

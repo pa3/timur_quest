@@ -40,13 +40,11 @@ public class GoToLocationCommand extends StarlingCommand {
                 ]
         );
 
-        walkMapModel.boxes = boxes;
 
         var backgroundLayers:Vector.<DisplayObject> = backgroundModel.getBackgroundLayersById(event.location.backgroundId);
         var timur:TimurView = new TimurView();
         dispatch(new ShowLocationEvent(backgroundLayers, Vector.<ActorView>([timur]), boxes));
-
-
+		walkMapModel.boxes = boxes;
     }
 }
 }

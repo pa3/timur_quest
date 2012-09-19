@@ -1,19 +1,14 @@
 package me.pa3.quest.models {
 	import flash.geom.Point;
 
-import me.pa3.quest.events.WalkMapUpdated;
-
-import me.pa3.quest.utils.BoxNavigator;
-import me.pa3.quest.utils.BoxUtils;
-import me.pa3.quest.utils.BoxUtils;
-import me.pa3.quest.vos.Box;
-
-import me.pa3.quest.vos.Box;
+	import me.pa3.quest.events.WalkMapUpdated;
+	import me.pa3.quest.utils.BoxNavigator;
+	import me.pa3.quest.utils.BoxUtils;
+	import me.pa3.quest.vos.Box;
 	import me.pa3.quest.vos.BoxedPoint;
-	import me.pa3.quest.vos.Gate;
-	import me.pa3.quest.vos.Path;
 	import me.pa3.quest.vos.Path;
 	import me.pa3.quest.vos.WayPoint;
+	import me.pa3.quest.vos.gates.Gate;
 
 	import org.robotlegs.mvcs.Actor;
 
@@ -24,7 +19,7 @@ import me.pa3.quest.vos.Box;
 		public function set boxes(value:Vector.<Box>):void {
 			_boxes = value;
 			_navigator = new BoxNavigator(_boxes);
-            dispatch(new WalkMapUpdated(_boxes));
+			dispatch(new WalkMapUpdated(_boxes));
 		}
 
 		public function findPath(startPoint:Point, endPoint:Point):Path {
@@ -41,7 +36,7 @@ import me.pa3.quest.vos.Box;
 			}
 
 			var result:Vector.<BoxedPoint> = new Vector.<BoxedPoint>();
-			var passedGates:Vector.<Gate> =  new Vector.<Gate>();
+			var passedGates:Vector.<Gate> = new Vector.<Gate>();
 
 			result.push(startPointPlacedInBox);
 
@@ -54,12 +49,12 @@ import me.pa3.quest.vos.Box;
 					break;
 				}
 
-				var	gate:Gate = _navigator.getGateBetween(prevBox, currentBox);
+				var gate:Gate = _navigator.getGateBetween(prevBox, currentBox);
 				if (gate == null) {
 					break;
 				}
 
-				var	gatePassPoint:Point = gate.getMiddlePointToPassGates(prevPoint, endPoint);
+				var gatePassPoint:Point = gate.getMiddlePointToPassGates(prevPoint, endPoint);
 				passedGates.push(gate);
 				result.push(new BoxedPoint(gatePassPoint, currentBox));
 				prevPoint = gatePassPoint;
@@ -101,10 +96,7 @@ import me.pa3.quest.vos.Box;
 			return new Path(wayPoints);
 		}
 
-
-
 	}
-
 
 }
 

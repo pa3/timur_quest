@@ -2,7 +2,9 @@ package me.pa3.quest.utils {
 	import flash.geom.Point;
 
 	import me.pa3.quest.vos.Box;
-	import me.pa3.quest.vos.Gate;
+	import me.pa3.quest.vos.gates.Gate;
+	import me.pa3.quest.vos.gates.HorizontalGate;
+	import me.pa3.quest.vos.gates.VerticalGate;
 
 	/**
 	 * Object which finds route between two boxes in box-map.

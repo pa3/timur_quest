@@ -48,10 +48,14 @@ public class LocationView extends Sprite {
     }
 
     private function onEnterFrame():void {
+		for (var j:int = 0, i:int = _backgroundLayers.length - 1; i >= 0; i--, j++) {
+			setChildIndex(_backgroundLayers[i], i);
+		}
         var point:Point = new Point();
         for each (var actor:ActorView in _actors) {
             point.setTo(actor.x, actor.y);
             var actorsBox:BoxedPoint =  BoxUtils.placePointInBox(point, _walkBoxes);
+			setChildIndex(_actors[0], actorsBox.box.zOrder);
         }
     }
 

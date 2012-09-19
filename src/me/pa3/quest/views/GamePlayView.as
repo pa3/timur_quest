@@ -1,12 +1,15 @@
 package me.pa3.quest.views {
 
-	import me.pa3.quest.utils.Globals;
-import me.pa3.quest.vos.Box;
+	import me.pa3.quest.utils.InputScaler;
+	import me.pa3.quest.vos.Box;
 
-import starling.display.DisplayObject;
+	import starling.display.DisplayObject;
 	import starling.display.Sprite;
 
 	public class GamePlayView extends Sprite {
+
+		[Inject]
+		public var inputScaler:InputScaler;
 
 		private var _currentLocation:LocationView;
 
@@ -15,8 +18,8 @@ import starling.display.DisplayObject;
 				removeChild(_currentLocation);
 			}
 			var locationView:LocationView = new LocationView(backgroundLayers, actors, walkBoxes);
-			locationView.scaleX = Globals.SCALE_X;
-			locationView.scaleY = Globals.SCALE_Y;
+			locationView.scaleX = inputScaler.worldToViewScale.x;
+			locationView.scaleY = inputScaler.worldToViewScale.y;
 			addChild(locationView);
 		}
 

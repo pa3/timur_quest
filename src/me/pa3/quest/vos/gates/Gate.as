@@ -1,4 +1,4 @@
-package me.pa3.quest.vos {
+package me.pa3.quest.vos.gates {
 	import flash.geom.Point;
 
 	public class Gate {

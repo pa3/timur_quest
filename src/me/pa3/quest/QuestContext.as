@@ -21,7 +21,9 @@ import me.pa3.quest.views.TimurViewMediator;
 import org.robotlegs.mvcs.Context;
 import org.robotlegs.mvcs.StarlingContext;
 
-import starling.display.DisplayObjectContainer;
+	import starling.core.Starling;
+
+	import starling.display.DisplayObjectContainer;
 
 public class QuestContext extends StarlingContext {
 
@@ -32,7 +34,8 @@ public class QuestContext extends StarlingContext {
     override public function startup():void {
         super.startup();
 
-		var inputScaler:InputScaler = new InputScaler(new Point(800, 600), new Point(1920, 1280));
+		//var inputScaler:InputScaler = new InputScaler(new Point(800, 600), new Point(1920, 1280));
+		var inputScaler:InputScaler = new InputScaler(new Point(80, 60), new Point(1920, 1280));
 		injector.mapValue(InputScaler, inputScaler);
         injector.mapSingleton(BackgroundModel);
         injector.mapSingleton(WalkMapModel);
