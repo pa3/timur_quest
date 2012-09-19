@@ -26,13 +26,7 @@ public class GoToLocationCommand extends StarlingCommand {
     public var walkMapModel:WalkMapModel;
 
     override public function execute():void {
-
-        var backgroundLayers:Vector.<DisplayObject> = backgroundModel.getBackgroundLayersById(event.location.backgroundId);
-
-        var timur:TimurView = new TimurView();
-        dispatch(new ShowLocationEvent(backgroundLayers, Vector.<ActorView>([timur])));
-
-        walkMapModel.boxes = Vector.<Box>(
+        var boxes:Vector.<Box> = Vector.<Box>(
                 [
                     new Box(new BoxVertex(2 * 310, 2 * 450), new BoxVertex(2 * 380, 2 * 450), new BoxVertex(2 * 340, 2 * 515), new BoxVertex(2 * 160, 2 * 515), new ScaleSlot(400, 0.001, 1200, 1.8), 4),
                     new Box(new BoxVertex(2 * 340, 2 * 515), new BoxVertex(2 * 160, 2 * 515), new BoxVertex(2 * 20, 2 * 575), new BoxVertex(2 * 340, 2 * 575), new ScaleSlot(400, 0.001, 1200, 1.8), 4),
@@ -45,6 +39,12 @@ public class GoToLocationCommand extends StarlingCommand {
                     new Box(new BoxVertex(2 * 160, 2 * 400), new BoxVertex(2 * 225, 2 * 380), new BoxVertex(2 * 225, 2 * 405), new BoxVertex(2 * 160, 2 * 420), new ScaleSlot(400, 0.001, 1200, 1.8), 1)
                 ]
         );
+
+        walkMapModel.boxes = boxes;
+
+        var backgroundLayers:Vector.<DisplayObject> = backgroundModel.getBackgroundLayersById(event.location.backgroundId);
+        var timur:TimurView = new TimurView();
+        dispatch(new ShowLocationEvent(backgroundLayers, Vector.<ActorView>([timur]), boxes));
 
 
     }

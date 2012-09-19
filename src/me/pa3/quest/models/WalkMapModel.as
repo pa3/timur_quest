@@ -4,6 +4,8 @@ package me.pa3.quest.models {
 import me.pa3.quest.events.WalkMapUpdated;
 
 import me.pa3.quest.utils.BoxNavigator;
+import me.pa3.quest.utils.BoxUtils;
+import me.pa3.quest.utils.BoxUtils;
 import me.pa3.quest.vos.Box;
 
 import me.pa3.quest.vos.Box;
@@ -26,11 +28,11 @@ import me.pa3.quest.vos.Box;
 		}
 
 		public function findPath(startPoint:Point, endPoint:Point):Path {
-			var startPointPlacedInBox:BoxedPoint = placePointInBox(startPoint);
+			var startPointPlacedInBox:BoxedPoint = BoxUtils.placePointInBox(startPoint, _boxes);
 			var startBox:Box = startPointPlacedInBox.box;
 			var startPoint:Point = startPointPlacedInBox.point;
 
-			var endPointPlacedInBox:BoxedPoint = placePointInBox(endPoint);
+			var endPointPlacedInBox:BoxedPoint = BoxUtils.placePointInBox(endPoint, _boxes);
 			var endBox:Box = endPointPlacedInBox.box;
 			var endPoint:Point = endPointPlacedInBox.point;
 
@@ -99,21 +101,7 @@ import me.pa3.quest.vos.Box;
 			return new Path(wayPoints);
 		}
 
-		private function placePointInBox(inputPoint:Point):BoxedPoint {
-			var resultPoint:Point = inputPoint;
-			var resultBox:Box = null;
-			var destToResultBox:Number = Number.MAX_VALUE;
-			for each (var aBox:Box in _boxes) {
-				var nearestPoint:Point = aBox.getNearestPoint(inputPoint);
-				var dest:Number = nearestPoint.subtract(inputPoint).length;
-				if (dest < destToResultBox) {
-					resultBox = aBox;
-					destToResultBox = dest;
-					resultPoint = nearestPoint;
-				}
-			}
-			return new BoxedPoint(resultPoint.clone(), resultBox);
-		}
+
 
 	}
 
