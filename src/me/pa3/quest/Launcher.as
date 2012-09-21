@@ -10,7 +10,7 @@ import org.robotlegs.mvcs.Context;
 
 import starling.core.Starling;
 
-[SWF(width=80, height=60)]
+[SWF(width=800, height=600)]
 public class Launcher extends Sprite {
 
     private var _starling:Starling;
@@ -22,7 +22,7 @@ public class Launcher extends Sprite {
     }
 
     private function onAddedToStage(event:Event):void {
-        _starling = new Starling(GameEntryPoint, stage, new Rectangle(0,0,80,60));
+        _starling = new Starling(GameEntryPoint, stage, new Rectangle(0,0,800,600));
         _starling.start();
     }
 }

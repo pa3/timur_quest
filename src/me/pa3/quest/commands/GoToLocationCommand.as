@@ -5,7 +5,8 @@ import me.pa3.quest.events.ShowLocationEvent;
 import me.pa3.quest.models.BackgroundModel;
 import me.pa3.quest.models.WalkMapModel;
 import me.pa3.quest.views.ActorView;
-import me.pa3.quest.views.TimurView;
+	import me.pa3.quest.views.MarinaView;
+	import me.pa3.quest.views.TimurView;
 import me.pa3.quest.vos.Box;
 import me.pa3.quest.vos.BoxVertex;
 import me.pa3.quest.vos.ScaleSlot;
@@ -43,7 +44,10 @@ public class GoToLocationCommand extends StarlingCommand {
 
         var backgroundLayers:Vector.<DisplayObject> = backgroundModel.getBackgroundLayersById(event.location.backgroundId);
         var timur:TimurView = new TimurView();
-        dispatch(new ShowLocationEvent(backgroundLayers, Vector.<ActorView>([timur]), boxes));
+        var marina:MarinaView = new MarinaView();
+		marina.x = 800;
+		marina.y = 800;
+        dispatch(new ShowLocationEvent(backgroundLayers, Vector.<ActorView>([timur, marina]), boxes));
 		walkMapModel.boxes = boxes;
     }
 }

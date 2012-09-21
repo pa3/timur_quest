@@ -1,28 +1,10 @@
 package me.pa3.quest.views {
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
-
-	import me.pa3.quest.events.WalkThePathEvent;
-
-	import me.pa3.quest.events.WalkThePathEvent;
-import me.pa3.quest.utils.InputScaler;
-
-import me.pa3.quest.vos.Path;
-	import me.pa3.quest.vos.WayPoint;
-
-	import starling.animation.Transitions;
-
-	import starling.animation.Tween;
-
-	import starling.core.Starling;
-	import starling.display.DisplayObject;
 	import starling.display.MovieClip;
-	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
 
-	public class TimurView extends ActorView {
+	public class MarinaView extends ActorView {
 
 		[Embed(source="/assets/actors/timur/timur.png")]
 		private const WALK_SPRITE_SHEET:Class;
@@ -30,8 +12,8 @@ import me.pa3.quest.vos.Path;
 		[Embed(source="/assets/actors/timur/timur.xml", mimeType="application/octet-stream")]
 		private const ANIMATION_ATLAS:Class;
 
-		public function TimurView() {
-            super("timur");
+		public function MarinaView() {
+			super("marina");
 		}
 
 		override protected function createAnimations():void {
@@ -42,7 +24,5 @@ import me.pa3.quest.vos.Path;
 			addAnimation("stand", new MovieClip(atlas.getTextures("Timur_stand"),  10));
             switchAnimationTo("stand");
 		}
-
-
 	}
 }
