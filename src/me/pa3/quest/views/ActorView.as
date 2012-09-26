@@ -50,7 +50,6 @@ import me.pa3.quest.vos.Path;
             switchAnimationTo("stand");
 		}
 
-
         private function walkToNextPoint():void {
 			if (_currentPath && _currentPath.hasMorePoints()) {
 
@@ -87,5 +86,11 @@ import me.pa3.quest.vos.Path;
         public function get position():Point {
             return new Point(x, y);
         }
+
+        public function set position(value:Point):void {
+            x = value.x;
+            y = value.y;
+        }
+
     }
 }

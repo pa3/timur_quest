@@ -1,9 +1,12 @@
 package me.pa3.quest.commands {
 
+import flash.geom.Point;
+
 import me.pa3.quest.events.GoToLocationEvent;
 import me.pa3.quest.events.ShowLocationEvent;
 import me.pa3.quest.models.BackgroundModel;
 import me.pa3.quest.models.WalkMapModel;
+import me.pa3.quest.utils.BoxUtils;
 import me.pa3.quest.views.ActorView;
 import me.pa3.quest.models.ActorViewsCreatorModel;
 import me.pa3.quest.vos.Box;
@@ -47,10 +50,13 @@ public class GoToLocationCommand extends StarlingCommand {
         var backgroundLayers:Vector.<DisplayObject> = backgroundModel.getBackgroundLayersById(event.location.backgroundId);
         var timur:ActorView = actorsFactory.createActor("timur");
         var marina:ActorView = actorsFactory.createActor("marina");
+        timur.position = BoxUtils.placePointInBox(timur.position, boxes).point;
         marina.x = 800;
         marina.y = 800;
+        marina.position = BoxUtils.placePointInBox(marina.position, boxes).point;
         dispatch(new ShowLocationEvent(backgroundLayers, Vector.<ActorView>([timur, marina]), boxes));
         walkMapModel.boxes = boxes;
+
     }
 }
 }

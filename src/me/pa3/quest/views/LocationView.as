@@ -51,11 +51,21 @@ public class LocationView extends Sprite {
 		for (var j:int = 0, i:int = _backgroundLayers.length - 1; i >= 0; i--, j++) {
 			setChildIndex(_backgroundLayers[i], i);
 		}
-        var point:Point = new Point();
-        for each (var actor:ActorView in _actors) {
-            point.setTo(actor.x, actor.y);
-            var actorsBox:BoxedPoint =  BoxUtils.placePointInBox(point, _walkBoxes);
-			setChildIndex(actor, actorsBox.box.zOrder);
+
+        var actorsZOrders:Vector.<int> = new Vector.<int>();
+        for (var k:int = 0; k < _actors.length; k++) {
+            var actor:ActorView = _actors[k];
+            var actorsBox:BoxedPoint =  BoxUtils.placePointInBox(actor.position, _walkBoxes);
+            actorsZOrders[k] = actorsBox.box.zOrder;
+            setChildIndex(actor, actorsZOrders[k]);
+        }
+
+        for (var i:int = 0; i < _actors.length; i++) {
+            for (var j:int = i; j < _actors.length; j++) {
+                if (actorsZOrders[i] == actorsZOrders[j] && _actors[i].position.y > _actors[j].position.y && getChildIndex(_actors[i]) < getChildIndex(_actors[j])) {
+                    swapChildren(_actors[i],_actors[j]);
+                }
+            }
         }
     }
 
