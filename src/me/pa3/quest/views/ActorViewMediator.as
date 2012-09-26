@@ -3,8 +3,9 @@ package me.pa3.quest.views {
 
 	import org.robotlegs.core.IInjector;
 	import org.robotlegs.mvcs.Mediator;
+import org.robotlegs.mvcs.StarlingMediator;
 
-	public class ActorViewMediator extends  Mediator {
+public class ActorViewMediator extends  StarlingMediator {
 
 		[Inject]
 		public var view:ActorView;

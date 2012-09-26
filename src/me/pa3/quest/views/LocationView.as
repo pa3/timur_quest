@@ -55,14 +55,14 @@ public class LocationView extends Sprite {
         for each (var actor:ActorView in _actors) {
             point.setTo(actor.x, actor.y);
             var actorsBox:BoxedPoint =  BoxUtils.placePointInBox(point, _walkBoxes);
-			setChildIndex(_actors[0], actorsBox.box.zOrder);
+			setChildIndex(actor, actorsBox.box.zOrder);
         }
     }
 
 
     public function getActorPosition(actorId:String):Point {
         var actor:ActorView = ActorView(_actorsById.get(actorId));
-        return new Point(actor.x, actor.y);
+        return actor.position;
     }
 
     private function onTouch(event:TouchEvent):void {

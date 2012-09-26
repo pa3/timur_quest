@@ -2,7 +2,9 @@ package me.pa3.quest.views {
 	import de.polygonal.ds.HashMap;
 	import de.polygonal.ds.Map;
 
-	import me.pa3.quest.vos.Path;
+import flash.geom.Point;
+
+import me.pa3.quest.vos.Path;
 	import me.pa3.quest.vos.WayPoint;
 
 	import starling.animation.Tween;
@@ -20,7 +22,9 @@ package me.pa3.quest.views {
 
 		private var _animationById:Map = new HashMap();
 
-		public function ActorView(id:String) {
+        private var _currentWalkTween:Tween;
+
+        public function ActorView(id:String) {
 			_id = id;
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
@@ -35,27 +39,32 @@ package me.pa3.quest.views {
 
 		public function walkThePath(path:Path):void {
 			_currentPath = path;
-			switchAnimationTo("walk");
+            if (_currentWalkTween) {
+                Starling.juggler.remove(_currentWalkTween);
+            }
+			switchAnimationTo("move");
 			walkToNextPoint();
 		}
 
-		protected function createAnimations():void {
-
-		}
-
 		private function onAddedToStage(event:Event):void {
-			createAnimations();
+            switchAnimationTo("stand");
 		}
 
 
-		private function walkToNextPoint():void {
+        private function walkToNextPoint():void {
 			if (_currentPath && _currentPath.hasMorePoints()) {
+
+                var currentPosition:Point = position;
+
 				var nextWayPoint:WayPoint = _currentPath.getNextPoint();
-				var tween:Tween = new Tween(this, 0);
-				tween.moveTo(nextWayPoint.point.x, nextWayPoint.point.y);
-				tween.scaleTo(nextWayPoint.scale);
-				tween.onComplete = walkToNextPoint;
-				Starling.juggler.add(tween);
+                scaleX = Math.abs(scaleX) * ((nextWayPoint.point.x > x) ? -1 : 1);
+
+                _currentWalkTween = new Tween(this, currentPosition.subtract(nextWayPoint.point).length/500);
+				_currentWalkTween.moveTo(nextWayPoint.point.x, nextWayPoint.point.y);
+                _currentWalkTween.animate("scaleX", Math.abs(nextWayPoint.scale) * ((nextWayPoint.point.x > x) ? -1 : 1));
+                _currentWalkTween.animate("scaleY", nextWayPoint.scale);
+				_currentWalkTween.onComplete = walkToNextPoint;
+				Starling.juggler.add(_currentWalkTween);
 			} else {
 				switchAnimationTo("stand");
 			}
@@ -75,5 +84,8 @@ package me.pa3.quest.views {
 			Starling.juggler.add(_currentAnimation);
 		}
 
-	}
+        public function get position():Point {
+            return new Point(x, y);
+        }
+    }
 }
