@@ -1,10 +1,12 @@
 package me.pa3.quest.views {
 import de.polygonal.ds.HashMap;
 
+import flash.events.TimerEvent;
+
 import flash.geom.Point;
+import flash.utils.Timer;
 
 import me.pa3.quest.events.LocationClickedEvent;
-import me.pa3.quest.utils.BoxNavigator;
 import me.pa3.quest.utils.BoxUtils;
 import me.pa3.quest.vos.Box;
 import me.pa3.quest.vos.BoxedPoint;
@@ -22,11 +24,17 @@ public class LocationView extends Sprite {
     private var _actors:Vector.<ActorView>;
     private var _actorsById:HashMap;
     private var _walkBoxes:Vector.<Box>;
+    private var _tapHoldTimer:Timer;
+    private var _uiLayer:Sprite;
+    private var _actionsMenu:ActionsMenuView;
 
     public function LocationView(backgroundLayers:Vector.<DisplayObject>, actors:Vector.<ActorView>, walkBoxes:Vector.<Box>) {
         _backgroundLayers = backgroundLayers;
         _actors = actors;
         _walkBoxes = walkBoxes;
+        _tapHoldTimer = new Timer(2,1);
+        _tapHoldTimer.addEventListener(TimerEvent.TIMER_COMPLETE, onTapTimerComplete);
+
         addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
     }
 
@@ -40,6 +48,9 @@ public class LocationView extends Sprite {
             addChild(anActor);
             _actorsById.set(anActor.id, anActor);
         }
+
+        _uiLayer = new Sprite();
+        addChild(_uiLayer);
         addChild(new DebugView());
         // TODO: Если слои перестанут быть размером во весь экран - надо будет переделать.
         _backgroundLayers[_backgroundLayers.length - 1].addEventListener(TouchEvent.TOUCH, onTouch);
@@ -48,14 +59,14 @@ public class LocationView extends Sprite {
     }
 
     private function onEnterFrame():void {
-		for (var j:int = 0, i:int = _backgroundLayers.length - 1; i >= 0; i--, j++) {
-			setChildIndex(_backgroundLayers[i], i);
-		}
+        for (var j:int = 0, i:int = _backgroundLayers.length - 1; i >= 0; i--, j++) {
+            setChildIndex(_backgroundLayers[i], i);
+        }
 
         var actorsZOrders:Vector.<int> = new Vector.<int>();
         for (var k:int = 0; k < _actors.length; k++) {
             var actor:ActorView = _actors[k];
-            var actorsBox:BoxedPoint =  BoxUtils.placePointInBox(actor.position, _walkBoxes);
+            var actorsBox:BoxedPoint = BoxUtils.placePointInBox(actor.position, _walkBoxes);
             actorsZOrders[k] = actorsBox.box.zOrder;
             setChildIndex(actor, actorsZOrders[k]);
         }
@@ -63,12 +74,11 @@ public class LocationView extends Sprite {
         for (var i:int = 0; i < _actors.length; i++) {
             for (var j:int = i; j < _actors.length; j++) {
                 if (actorsZOrders[i] == actorsZOrders[j] && _actors[i].position.y > _actors[j].position.y && getChildIndex(_actors[i]) < getChildIndex(_actors[j])) {
-                    swapChildren(_actors[i],_actors[j]);
+                    swapChildren(_actors[i], _actors[j]);
                 }
             }
         }
     }
-
 
     public function getActorPosition(actorId:String):Point {
         var actor:ActorView = ActorView(_actorsById.get(actorId));
@@ -77,11 +87,33 @@ public class LocationView extends Sprite {
 
     private function onTouch(event:TouchEvent):void {
         var touch:Touch = event.getTouch(this);
+
         if (touch && touch.phase == TouchPhase.BEGAN) {
+            _tapHoldTimer.start();
             var touchPoint:Point = new Point(touch.globalX, touch.globalY);
             globalToLocal(touchPoint, touchPoint);
             dispatchEvent(new LocationClickedEvent(touchPoint));
+        } else if (touch && touch.phase == TouchPhase.ENDED) {
+            _tapHoldTimer.reset();
         }
     }
+
+    private function onTapTimerComplete(event:TimerEvent):void {
+        showActionsMenu();
+    }
+
+    public function showActionsMenu():void {
+        _actionsMenu = new ActionsMenuView();
+        _uiLayer.addChild(new ActionsMenuView());
+    }
+
+    public function removeActionsMenu():void {
+        if (_actionsMenu && _uiLayer.contains(_actionsMenu)) {
+            _uiLayer.removeChild(_actionsMenu);
+        }
+    }
+
+
+
 }
 }
