@@ -9,6 +9,8 @@ import me.pa3.quest.events.WalkToPointEvent;
 import me.pa3.quest.models.BackgroundModel;
 import me.pa3.quest.models.WalkMapModel;
 import me.pa3.quest.utils.InputScaler;
+import me.pa3.quest.views.ActionsMenuView;
+import me.pa3.quest.views.ActionsMenuViewMediator;
 import me.pa3.quest.views.ActorView;
 import me.pa3.quest.views.ActorViewMediator;
 import me.pa3.quest.models.ActorViewsCreatorModel;
@@ -46,6 +48,7 @@ public class QuestContext extends StarlingContext {
         mediatorMap.mapView(ActorView, ActorViewMediator);
         mediatorMap.mapView(LocationView, LocationViewMediator);
         mediatorMap.mapView(DebugView, DebugViewMediator);
+        mediatorMap.mapView(ActionsMenuView, ActionsMenuViewMediator);
 
     }
 }

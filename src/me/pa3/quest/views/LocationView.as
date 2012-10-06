@@ -11,6 +11,8 @@ import me.pa3.quest.utils.BoxUtils;
 import me.pa3.quest.vos.Box;
 import me.pa3.quest.vos.BoxedPoint;
 
+import starling.core.Starling;
+
 import starling.display.DisplayObject;
 import starling.display.Sprite;
 import starling.events.Event;
@@ -32,7 +34,7 @@ public class LocationView extends Sprite {
         _backgroundLayers = backgroundLayers;
         _actors = actors;
         _walkBoxes = walkBoxes;
-        _tapHoldTimer = new Timer(2,1);
+        _tapHoldTimer = new Timer(1000,1);
         _tapHoldTimer.addEventListener(TimerEvent.TIMER_COMPLETE, onTapTimerComplete);
 
         addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
@@ -85,17 +87,23 @@ public class LocationView extends Sprite {
         return actor.position;
     }
 
+    private var _touchPoint:Point;
+
     private function onTouch(event:TouchEvent):void {
         var touch:Touch = event.getTouch(this);
-
-        if (touch && touch.phase == TouchPhase.BEGAN) {
-            _tapHoldTimer.start();
-            var touchPoint:Point = new Point(touch.globalX, touch.globalY);
-            globalToLocal(touchPoint, touchPoint);
-            dispatchEvent(new LocationClickedEvent(touchPoint));
-        } else if (touch && touch.phase == TouchPhase.ENDED) {
-            _tapHoldTimer.reset();
+        if (touch) {
+            _touchPoint = new Point(touch.globalX, touch.globalY);
+            globalToLocal(_touchPoint, _touchPoint);
+            if (touch.phase == TouchPhase.BEGAN) {
+                _tapHoldTimer.start();
+            } else if (touch.phase == TouchPhase.ENDED) {
+                if (_tapHoldTimer.running) {
+                    _tapHoldTimer.reset();
+                    dispatchEvent(new LocationClickedEvent(_touchPoint));
+                }
+            }
         }
+
     }
 
     private function onTapTimerComplete(event:TimerEvent):void {
@@ -103,8 +111,8 @@ public class LocationView extends Sprite {
     }
 
     public function showActionsMenu():void {
-        _actionsMenu = new ActionsMenuView();
-        _uiLayer.addChild(new ActionsMenuView());
+        _actionsMenu = new ActionsMenuView(_touchPoint);
+        _uiLayer.addChild(_actionsMenu);
     }
 
     public function removeActionsMenu():void {

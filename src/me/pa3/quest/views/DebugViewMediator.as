@@ -10,11 +10,7 @@ public class DebugViewMediator extends StarlingMediator{
     [Inject]
     public var view:DebugView;
 
-    [Inject]
-    public var injector:IInjector;
-
     override public function onRegister():void {
-        injector.injectInto(view);
         addContextListener(WalkThePathEvent.EVENT_TYPE, onWalkThePath);
         addContextListener(WalkMapUpdated.EVENT_TYPE, onWalkMapUpdated);
     }

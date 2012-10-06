@@ -11,9 +11,6 @@ import starling.display.Quad;
 import starling.display.Sprite;
 
 public class DebugView extends Sprite {
-    [Inject]
-    public var inputScaler:InputScaler;
-
     private var _walkPathLines:Vector.<DisplayObject> = new Vector.<DisplayObject>();
     private var _walkMapLines:Vector.<DisplayObject> = new Vector.<DisplayObject>();
 
