@@ -28,50 +28,66 @@ public class ActionsMenuView extends Sprite {
         addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
     }
 
-    private var _lookIcon:Image;
+    private var _eyeIcon:Image;
 
-    private var _pickIcon:Image;
+    private var _handIcon:Image;
 
-    private var _walkIcon:Image;
+    private var _bootIcon:Image;
 
     private function onAddedToStage(event:Event):void {
         this.x = _position.x;
         this.y = _position.y;
 
-        _lookIcon = new Image(Texture.fromBitmap(new LookIcon()));
-        _pickIcon = new Image(Texture.fromBitmap(new PickIcon()));
-        _walkIcon = new Image(Texture.fromBitmap(new WalkIcon()));
+        _eyeIcon = new Image(Texture.fromBitmap(new LookIcon()));
+        _handIcon = new Image(Texture.fromBitmap(new PickIcon()));
+        _bootIcon = new Image(Texture.fromBitmap(new WalkIcon()));
 
-        _lookIcon.x = 0;
-        _pickIcon.x = _lookIcon.width;
-        _walkIcon.x = _lookIcon.width + _pickIcon.width;
+        _eyeIcon.x = 0;
+        _handIcon.x = _eyeIcon.width;
+        _bootIcon.x = _eyeIcon.width + _handIcon.width;
 
-        this.addChild(_lookIcon);
-        this.addChild(_pickIcon);
-        this.addChild(_walkIcon);
+        this.addChild(_eyeIcon);
+        this.addChild(_handIcon);
+        this.addChild(_bootIcon);
 
-        _lookIcon.addEventListener(TouchEvent.TOUCH, onTouch);
-        _pickIcon.addEventListener(TouchEvent.TOUCH, onTouch);
-        _walkIcon.addEventListener(TouchEvent.TOUCH, onTouch);
+        _eyeIcon.addEventListener(TouchEvent.TOUCH, onTouch);
+        _handIcon.addEventListener(TouchEvent.TOUCH, onTouch);
+        _bootIcon.addEventListener(TouchEvent.TOUCH, onTouch);
     }
 
     private function onTouch(e:TouchEvent):void {
         var touch:Touch = e.getTouch(this);
         if (touch && touch.phase == TouchPhase.ENDED) {
             switch (touch.target) {
-                case _lookIcon:
-                    dispatchEvent(new ActionIconClickedEvent(Action.LOOK));
+                case _eyeIcon:
+                    dispatchEvent(new ActionIconClickedEvent(Action.EYE));
                     break;
-                case _pickIcon:
-                    dispatchEvent(new ActionIconClickedEvent(Action.PICK));
+                case _handIcon:
+                    dispatchEvent(new ActionIconClickedEvent(Action.HAND));
                     break;
-                case _walkIcon:
-                    dispatchEvent(new ActionIconClickedEvent(Action.WALK));
+                case _bootIcon:
+                    dispatchEvent(new ActionIconClickedEvent(Action.BOOT));
                     break;
             }
 
         }
     }
 
+    public function handleTouchEnd(globalPoint:Point):void {
+        var localPoint:Point = new Point();
+        globalToLocal(globalPoint, localPoint);
+        switch (hitTest(localPoint)) {
+            case _eyeIcon:
+                trace("use eye");
+                break;
+            case _bootIcon:
+                trace("use boot");
+                break;
+            case _handIcon:
+                trace("use hand");
+                break;
+        }
+
+    }
 }
 }

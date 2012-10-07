@@ -2,16 +2,14 @@ package me.pa3.quest.views {
 import de.polygonal.ds.HashMap;
 
 import flash.events.TimerEvent;
-
 import flash.geom.Point;
 import flash.utils.Timer;
 
 import me.pa3.quest.events.LocationClickedEvent;
 import me.pa3.quest.utils.BoxUtils;
+import me.pa3.quest.vos.Action;
 import me.pa3.quest.vos.Box;
 import me.pa3.quest.vos.BoxedPoint;
-
-import starling.core.Starling;
 
 import starling.display.DisplayObject;
 import starling.display.Sprite;
@@ -34,7 +32,7 @@ public class LocationView extends Sprite {
         _backgroundLayers = backgroundLayers;
         _actors = actors;
         _walkBoxes = walkBoxes;
-        _tapHoldTimer = new Timer(1000,1);
+        _tapHoldTimer = new Timer(500, 1);
         _tapHoldTimer.addEventListener(TimerEvent.TIMER_COMPLETE, onTapTimerComplete);
 
         addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
@@ -87,19 +85,25 @@ public class LocationView extends Sprite {
         return actor.position;
     }
 
-    private var _touchPoint:Point;
+    private var _touchLocalPoint:Point;
 
     private function onTouch(event:TouchEvent):void {
         var touch:Touch = event.getTouch(this);
         if (touch) {
-            _touchPoint = new Point(touch.globalX, touch.globalY);
-            globalToLocal(_touchPoint, _touchPoint);
+            var touchGlobalPoint:Point = new Point(touch.globalX, touch.globalY);
+            _touchLocalPoint = new Point();
+            globalToLocal(touchGlobalPoint, _touchLocalPoint);
             if (touch.phase == TouchPhase.BEGAN) {
                 _tapHoldTimer.start();
             } else if (touch.phase == TouchPhase.ENDED) {
-                if (_tapHoldTimer.running) {
-                    _tapHoldTimer.reset();
-                    dispatchEvent(new LocationClickedEvent(_touchPoint));
+                if (_uiLayer.contains(_actionsMenu)) {
+                    _actionsMenu.handleTouchEnd(touchGlobalPoint);
+                    removeActionsMenu();
+                } else {
+                    if (_tapHoldTimer.running) {
+                        _tapHoldTimer.reset();
+                        dispatchEvent(new LocationClickedEvent(_touchLocalPoint));
+                    }
                 }
             }
         }
@@ -111,7 +115,7 @@ public class LocationView extends Sprite {
     }
 
     public function showActionsMenu():void {
-        _actionsMenu = new ActionsMenuView(_touchPoint);
+        _actionsMenu = new ActionsMenuView(_touchLocalPoint);
         _uiLayer.addChild(_actionsMenu);
     }
 
@@ -120,7 +124,6 @@ public class LocationView extends Sprite {
             _uiLayer.removeChild(_actionsMenu);
         }
     }
-
 
 
 }
