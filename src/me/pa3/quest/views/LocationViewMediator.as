@@ -17,7 +17,7 @@ import me.pa3.quest.events.WalkToPointEvent;
 
 		override public function onRegister():void {
 			super.onRegister();
-			view.addEventListener(LocationClickedEvent.EVENT_TYPE, onMouseClick)
+			view.addEventListener(LocationClickedEvent.EVENT_TYPE, onMouseClick);
             addContextListener(ActionPickedEvent.EVENT_TYPE, onActionPicked);
 		}
 

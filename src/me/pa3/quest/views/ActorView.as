@@ -3,6 +3,7 @@ package me.pa3.quest.views {
 	import de.polygonal.ds.Map;
 
 import flash.geom.Point;
+import flash.geom.Rectangle;
 
 import me.pa3.quest.vos.Path;
 	import me.pa3.quest.vos.WayPoint;
@@ -23,10 +24,12 @@ import me.pa3.quest.vos.Path;
 		private var _animationById:Map = new HashMap();
 
         private var _currentWalkTween:Tween;
+        private var _boundBox:Rectangle;
 
-        public function ActorView(id:String) {
+        public function ActorView(id:String, boundBox:Rectangle) {
 			_id = id;
-			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+            _boundBox = boundBox;
+            addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 
 		public function get id():String {
@@ -92,5 +95,13 @@ import me.pa3.quest.vos.Path;
             y = value.y;
         }
 
+        public function isPointInside(point:Point):Boolean {
+            return (_boundBox.containsPoint(point));
+        }
+
+
+        public function get boundBox():Rectangle {
+            return new Rectangle(x+_boundBox.x, y+_boundBox.y,x+_boundBox.width, y+_boundBox.height);
+        }
     }
 }

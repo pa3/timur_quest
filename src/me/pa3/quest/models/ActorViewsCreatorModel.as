@@ -1,4 +1,6 @@
 package me.pa3.quest.models {
+import flash.geom.Rectangle;
+
 import me.pa3.quest.views.*;
 
 import starling.display.MovieClip;
@@ -20,7 +22,7 @@ public class ActorViewsCreatorModel {
         private const MARINA_ANIMATION_ATLAS:Class;
 
         public  function createActor(actorId:String):ActorView {
-            var actor:ActorView = new ActorView(actorId);
+            var actor:ActorView = new ActorView(actorId, new Rectangle(-20, -100, 40, 200));
 			switch (actorId) {
 				case "timur":
                     var texture:Texture = Texture.fromBitmap(new TIMUR_WALK_SPRITE_SHEET(), true, true, 1);

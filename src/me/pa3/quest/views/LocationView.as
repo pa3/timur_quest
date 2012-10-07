@@ -11,6 +11,10 @@ import me.pa3.quest.vos.Action;
 import me.pa3.quest.vos.Box;
 import me.pa3.quest.vos.BoxedPoint;
 
+import org.robotlegs.mvcs.Actor;
+
+import starling.display.DisplayObject;
+
 import starling.display.DisplayObject;
 import starling.display.Sprite;
 import starling.events.Event;
@@ -51,7 +55,6 @@ public class LocationView extends Sprite {
 
         _uiLayer = new Sprite();
         addChild(_uiLayer);
-        addChild(new DebugView());
         // TODO: Если слои перестанут быть размером во весь экран - надо будет переделать.
         _backgroundLayers[_backgroundLayers.length - 1].addEventListener(TouchEvent.TOUCH, onTouch);
 
@@ -59,24 +62,41 @@ public class LocationView extends Sprite {
     }
 
     private function onEnterFrame():void {
-        for (var j:int = 0, i:int = _backgroundLayers.length - 1; i >= 0; i--, j++) {
-            setChildIndex(_backgroundLayers[i], i);
-        }
+        sortBackgroundLayers();
+        var zOrders:Vector.<int> = actorsZOrders;
+        sortActors(zOrders);
+        sortActorsWithSameZOrder(zOrders);
+    }
 
-        var actorsZOrders:Vector.<int> = new Vector.<int>();
-        for (var k:int = 0; k < _actors.length; k++) {
-            var actor:ActorView = _actors[k];
-            var actorsBox:BoxedPoint = BoxUtils.placePointInBox(actor.position, _walkBoxes);
-            actorsZOrders[k] = actorsBox.box.zOrder;
-            setChildIndex(actor, actorsZOrders[k]);
-        }
-
+    private function sortActorsWithSameZOrder(actorsZOrders:Vector.<int>):void {
         for (var i:int = 0; i < _actors.length; i++) {
             for (var j:int = i; j < _actors.length; j++) {
                 if (actorsZOrders[i] == actorsZOrders[j] && _actors[i].position.y > _actors[j].position.y && getChildIndex(_actors[i]) < getChildIndex(_actors[j])) {
                     swapChildren(_actors[i], _actors[j]);
                 }
             }
+        }
+    }
+
+    private function sortActors(actorsZOrders:Vector.<int>):void {
+        for (var i:int = 0; i < _actors.length; i++) {
+            setChildIndex(_actors[i], actorsZOrders[i]);
+        }
+    }
+
+    private function get actorsZOrders():Vector.<int> {
+        var result:Vector.<int> = new Vector.<int>();
+        for (var i:int = 0; i < _actors.length; i++) {
+            var actor:ActorView = _actors[i];
+            var actorsBox:BoxedPoint = BoxUtils.placePointInBox(actor.position, _walkBoxes);
+            result[i] = actorsBox.box.zOrder;
+        }
+        return result;
+    }
+
+    private function sortBackgroundLayers():void {
+        for (var j:int = 0, i:int = _backgroundLayers.length - 1; i >= 0; i--, j++) {
+            setChildIndex(_backgroundLayers[i], i);
         }
     }
 
@@ -102,12 +122,26 @@ public class LocationView extends Sprite {
                 } else {
                     if (_tapHoldTimer.running) {
                         _tapHoldTimer.reset();
-                        dispatchEvent(new LocationClickedEvent(_touchLocalPoint));
+                        var actor:ActorView = getActorUnderPoint(_touchLocalPoint);
+                        if (actor) {
+                            //dispatchEvent(new ActorClickedEvent(actor));
+                        } else {
+                            dispatchEvent(new LocationClickedEvent(_touchLocalPoint));
+                        }
+
                     }
                 }
             }
         }
+    }
 
+    private function getActorUnderPoint(point:Point):ActorView {
+        for each (var actor:ActorView in _actors) {
+            if (actor.isPointInside(point)) {
+                return actor;
+            }
+        }
+        return null;
     }
 
     private function onTapTimerComplete(event:TimerEvent):void {

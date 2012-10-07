@@ -1,25 +1,60 @@
 package me.pa3.quest.views {
+import flash.geom.Rectangle;
+
 import me.pa3.quest.utils.InputScaler;
 import me.pa3.quest.views.debug.Line;
 import me.pa3.quest.vos.Box;
 import me.pa3.quest.vos.BoxVertex;
 import me.pa3.quest.vos.Path;
+import me.pa3.quest.vos.WayPoint;
 
 import starling.display.DisplayObject;
 import starling.display.Quad;
 
 import starling.display.Sprite;
+import starling.events.Event;
 
 public class DebugView extends Sprite {
     private var _walkPathLines:Vector.<DisplayObject> = new Vector.<DisplayObject>();
     private var _walkMapLines:Vector.<DisplayObject> = new Vector.<DisplayObject>();
+    private var _actors:Vector.<ActorView> = new Vector.<ActorView>();
+    private var _actorsBoundsLines:Vector.<DisplayObject> = new Vector.<DisplayObject>();
+
+
+    public function DebugView() {
+        addEventListener(Event.ENTER_FRAME, onEnterFrame);
+    }
+
+    private function onEnterFrame(event:Event):void {
+        clear(_actorsBoundsLines);
+        for each (var actor:ActorView in _actors) {
+            lineFromTo(actor.boundBox.topLeft.x, actor.boundBox.topLeft.y, actor.boundBox.bottomRight.x, actor.boundBox.topLeft.y, 0x0000ff);
+            lineFromTo(actor.boundBox.bottomRight.x, actor.boundBox.topLeft.y, actor.boundBox.bottomRight.x, actor.boundBox.bottomRight.y,0x0000ff);
+            lineFromTo(actor.boundBox.bottomRight.x, actor.boundBox.bottomRight.y, actor.boundBox.topLeft.x, actor.boundBox.bottomRight.y,0x0000ff);
+            lineFromTo(actor.boundBox.topLeft.x, actor.boundBox.bottomRight.y, actor.boundBox.topLeft.x, actor.boundBox.topLeft.y,0x0000ff);
+        }
+    }
+
+    private function lineFromTo(fromX:Number, fromY:Number, toX:Number, toY:Number, color:uint = 0x0):Line {
+        var line:Line = new Line();
+        line.lineTo(toX - fromX, toY - fromY);
+        line.x = fromX;
+        line.y = fromY;
+        line.thickness = 3;
+        addChild(line);
+        return line;
+    }
+
+    public function showActorsBounds(actor:ActorView):void {
+        _actors.push(actor);
+    }
 
     public function drawPath(path:Path):void {
         clear(_walkPathLines);
         if (path.waypoints.length > 0) {
             for (var i:int = 1; i < path.waypoints.length; i++) {
                 var line:Line = new Line();
-                line.lineTo(path.waypoints[i].point.x - path.waypoints[i - 1].point.x, path.waypoints[i].point.y - path.waypoints[i - 1].point.y);
+                line.lineTo(WayPoint(path.waypoints[i]).point.x - path.waypoints[i - 1].point.x, path.waypoints[i].point.y - path.waypoints[i - 1].point.y);
                 line.x = path.waypoints[i - 1].point.x;
                 line.y = path.waypoints[i - 1].point.y;
                 line.thickness = 3;
@@ -42,7 +77,6 @@ public class DebugView extends Sprite {
                 drawWalkBox(box);
             }
         }
-
     }
 
     private function drawWalkBox(box:Box):void {
