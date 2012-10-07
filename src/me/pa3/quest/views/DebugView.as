@@ -28,10 +28,10 @@ public class DebugView extends Sprite {
     private function onEnterFrame(event:Event):void {
         clear(_actorsBoundsLines);
         for each (var actor:ActorView in _actors) {
-            lineFromTo(actor.boundBox.topLeft.x, actor.boundBox.topLeft.y, actor.boundBox.bottomRight.x, actor.boundBox.topLeft.y, 0x0000ff);
-            lineFromTo(actor.boundBox.bottomRight.x, actor.boundBox.topLeft.y, actor.boundBox.bottomRight.x, actor.boundBox.bottomRight.y,0x0000ff);
-            lineFromTo(actor.boundBox.bottomRight.x, actor.boundBox.bottomRight.y, actor.boundBox.topLeft.x, actor.boundBox.bottomRight.y,0x0000ff);
-            lineFromTo(actor.boundBox.topLeft.x, actor.boundBox.bottomRight.y, actor.boundBox.topLeft.x, actor.boundBox.topLeft.y,0x0000ff);
+            _actorsBoundsLines.push(lineFromTo(actor.boundBox.topLeft.x, actor.boundBox.topLeft.y, actor.boundBox.bottomRight.x, actor.boundBox.topLeft.y, 0x0000ff));
+            _actorsBoundsLines.push(lineFromTo(actor.boundBox.bottomRight.x, actor.boundBox.topLeft.y, actor.boundBox.bottomRight.x, actor.boundBox.bottomRight.y,0x0000ff));
+            _actorsBoundsLines.push(lineFromTo(actor.boundBox.bottomRight.x, actor.boundBox.bottomRight.y, actor.boundBox.topLeft.x, actor.boundBox.bottomRight.y,0x0000ff));
+            _actorsBoundsLines.push(lineFromTo(actor.boundBox.topLeft.x, actor.boundBox.bottomRight.y, actor.boundBox.topLeft.x, actor.boundBox.topLeft.y,0x0000ff));
         }
     }
 
@@ -41,6 +41,7 @@ public class DebugView extends Sprite {
         line.x = fromX;
         line.y = fromY;
         line.thickness = 3;
+        line.color = color;
         addChild(line);
         return line;
     }

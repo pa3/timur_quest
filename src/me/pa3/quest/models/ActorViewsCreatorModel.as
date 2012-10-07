@@ -22,7 +22,7 @@ public class ActorViewsCreatorModel {
         private const MARINA_ANIMATION_ATLAS:Class;
 
         public  function createActor(actorId:String):ActorView {
-            var actor:ActorView = new ActorView(actorId, new Rectangle(-20, -100, 40, 200));
+            var actor:ActorView = new ActorView(actorId, new Rectangle(-100, -500, 200, 500));
 			switch (actorId) {
 				case "timur":
                     var texture:Texture = Texture.fromBitmap(new TIMUR_WALK_SPRITE_SHEET(), true, true, 1);

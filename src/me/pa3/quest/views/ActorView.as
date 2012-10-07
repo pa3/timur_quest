@@ -96,12 +96,12 @@ import me.pa3.quest.vos.Path;
         }
 
         public function isPointInside(point:Point):Boolean {
-            return (_boundBox.containsPoint(point));
+            return (boundBox.containsPoint(point));
         }
 
 
         public function get boundBox():Rectangle {
-            return new Rectangle(x+_boundBox.x, y+_boundBox.y,x+_boundBox.width, y+_boundBox.height);
+            return new Rectangle(x+scaleX*_boundBox.x, y+scaleY*_boundBox.y,scaleX*_boundBox.width,scaleY*_boundBox.height);
         }
     }
 }

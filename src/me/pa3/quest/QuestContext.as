@@ -27,16 +27,18 @@ import starling.display.DisplayObjectContainer;
 
 public class QuestContext extends StarlingContext {
 
-    public function QuestContext(contextView:DisplayObjectContainer) {
+    private var _inputScaler:InputScaler
+
+    public function QuestContext(contextView:DisplayObjectContainer, inputScaler:InputScaler) {
+        _inputScaler = inputScaler;
         super(contextView);
     }
+
 
     override public function startup():void {
         super.startup();
 
-        //var inputScaler:InputScaler = new InputScaler(new Point(800, 600), new Point(1920, 1280));
-        var inputScaler:InputScaler = new InputScaler(new Point(800, 600), new Point(1920, 1280));
-        injector.mapValue(InputScaler, inputScaler);
+        injector.mapValue(InputScaler, _inputScaler);
         injector.mapSingleton(ActorViewsCreatorModel);
         injector.mapSingleton(BackgroundModel);
         injector.mapSingleton(WalkMapModel);
@@ -50,6 +52,10 @@ public class QuestContext extends StarlingContext {
         mediatorMap.mapView(DebugView, DebugViewMediator);
         mediatorMap.mapView(ActionsMenuView, ActionsMenuViewMediator);
 
+    }
+
+    public function get inputScaler():InputScaler {
+        return _inputScaler;
     }
 }
 }

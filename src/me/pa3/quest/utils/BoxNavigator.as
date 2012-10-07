@@ -37,7 +37,7 @@ package me.pa3.quest.utils {
 
 		private function rebuildRoutes():void {
 			// Floyd–Warshall algorithm. Check Wikipedia for explanation.
-			// In this realization I am using -1 as an infinity value.
+			// In this implementation I use -1 as an infinity value.
 
 			var path:TwoKeysMap = new TwoKeysMap();
 			nextBoxMap = new TwoKeysMap();

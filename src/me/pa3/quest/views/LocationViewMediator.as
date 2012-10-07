@@ -1,34 +1,34 @@
 package me.pa3.quest.views {
-	import flash.events.MouseEvent;
-
-import me.pa3.quest.events.ActionIconClickedEvent;
 import me.pa3.quest.events.ActionPickedEvent;
-
+import me.pa3.quest.events.UserPerformedGestureEvent;
 import me.pa3.quest.events.WalkToPointEvent;
 
-	import me.pa3.quest.events.LocationClickedEvent;
+import org.robotlegs.mvcs.StarlingMediator;
 
-	import org.robotlegs.mvcs.StarlingMediator;
+public class LocationViewMediator extends StarlingMediator {
 
-	public class LocationViewMediator extends StarlingMediator{
+    [Inject]
+    public var view:LocationView;
 
-		[Inject]
-		public var view:LocationView;
+    override public function onRegister():void {
+        super.onRegister();
+        view.addEventListener(UserPerformedGestureEvent.EVENT_TYPE, onUserGesture);
+        addContextListener(ActionPickedEvent.EVENT_TYPE, onActionPicked);
+    }
 
-		override public function onRegister():void {
-			super.onRegister();
-			view.addEventListener(LocationClickedEvent.EVENT_TYPE, onMouseClick);
-            addContextListener(ActionPickedEvent.EVENT_TYPE, onActionPicked);
-		}
+    private function onUserGesture(event:UserPerformedGestureEvent):void {
+        var message:String = "Use ";
+        message += event.action;
+        message += " on ";
+        message += (event.actor != null) ? event.actor.id : event.touchPoint.toString();
+        trace(message);
+        //dispatch(new WalkToPointEvent("timur", view.getActorPosition("timur"), e.point));
+    }
 
-        private function onActionPicked(e:ActionPickedEvent):void {
-            view.removeActionsMenu();
-        }
-
-		private function onMouseClick(e:LocationClickedEvent):void {
-			dispatch(new WalkToPointEvent("timur", view.getActorPosition("timur"), e.point));
-		}
+    private function onActionPicked(e:ActionPickedEvent):void {
+        view.removeActionsMenu();
+    }
 
 
-	}
+}
 }

@@ -73,21 +73,19 @@ public class ActionsMenuView extends Sprite {
         }
     }
 
-    public function handleTouchEnd(globalPoint:Point):void {
+    public function getActionUnderFinger(touchPoint:Point):Action {
         var localPoint:Point = new Point();
-        globalToLocal(globalPoint, localPoint);
+        globalToLocal(touchPoint, localPoint);
         switch (hitTest(localPoint)) {
             case _eyeIcon:
-                trace("use eye");
-                break;
+                return Action.EYE;
             case _bootIcon:
-                trace("use boot");
-                break;
+                return Action.BOOT;
             case _handIcon:
-                trace("use hand");
-                break;
+                return Action.HAND;
+            default:
+                return Action.NONE;
         }
-
     }
 }
 }

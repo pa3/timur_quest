@@ -5,15 +5,12 @@ import flash.events.TimerEvent;
 import flash.geom.Point;
 import flash.utils.Timer;
 
-import me.pa3.quest.events.LocationClickedEvent;
+import me.pa3.quest.events.UserPerformedGestureEvent;
+
 import me.pa3.quest.utils.BoxUtils;
 import me.pa3.quest.vos.Action;
 import me.pa3.quest.vos.Box;
 import me.pa3.quest.vos.BoxedPoint;
-
-import org.robotlegs.mvcs.Actor;
-
-import starling.display.DisplayObject;
 
 import starling.display.DisplayObject;
 import starling.display.Sprite;
@@ -116,21 +113,20 @@ public class LocationView extends Sprite {
             if (touch.phase == TouchPhase.BEGAN) {
                 _tapHoldTimer.start();
             } else if (touch.phase == TouchPhase.ENDED) {
+                var action:Action = Action.NONE;
+                var touchPoint:Point = _touchLocalPoint;
                 if (_uiLayer.contains(_actionsMenu)) {
-                    _actionsMenu.handleTouchEnd(touchGlobalPoint);
+                    action = _actionsMenu.getActionUnderFinger(touchGlobalPoint);
+                    touchPoint = new Point(_actionsMenu.x,  _actionsMenu.y);
                     removeActionsMenu();
                 } else {
                     if (_tapHoldTimer.running) {
                         _tapHoldTimer.reset();
-                        var actor:ActorView = getActorUnderPoint(_touchLocalPoint);
-                        if (actor) {
-                            //dispatchEvent(new ActorClickedEvent(actor));
-                        } else {
-                            dispatchEvent(new LocationClickedEvent(_touchLocalPoint));
-                        }
-
                     }
                 }
+
+                var actor:ActorView = getActorUnderPoint(touchPoint);
+                dispatchEvent(new UserPerformedGestureEvent(actor, action, touchPoint));
             }
         }
     }
