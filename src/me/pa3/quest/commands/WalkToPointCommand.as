@@ -24,7 +24,9 @@ import org.robotlegs.mvcs.StarlingCommand;
 //			var worldSourcePoint:Point = inputScaler.viewToWorld(event.currentPosition);
 //			var worldDestinationPoint:Point = inputScaler.viewToWorld(event.destination);
 //			var path:Path = walkMapModel.findPath(worldSourcePoint, worldDestinationPoint);
+
 			var path:Path = walkMapModel.findPath(event.currentPosition, event.destination);
+
             dispatch(new WalkThePathEvent(event.actorId, path));
 		}
 	}

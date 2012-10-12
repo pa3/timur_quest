@@ -1,9 +1,11 @@
 package me.pa3.quest.views {
 import me.pa3.quest.events.ActionPickedEvent;
-import me.pa3.quest.events.UserPerformedGestureEvent;
+	import me.pa3.quest.events.HandleUserActionEvent;
+	import me.pa3.quest.events.UserPerformedGestureEvent;
 import me.pa3.quest.events.WalkToPointEvent;
+	import me.pa3.quest.vos.Action;
 
-import org.robotlegs.mvcs.StarlingMediator;
+	import org.robotlegs.mvcs.StarlingMediator;
 
 public class LocationViewMediator extends StarlingMediator {
 
@@ -22,13 +24,16 @@ public class LocationViewMediator extends StarlingMediator {
         message += " on ";
         message += (event.actor != null) ? event.actor.id : event.touchPoint.toString();
         trace(message);
-        //dispatch(new WalkToPointEvent("timur", view.getActorPosition("timur"), e.point));
+		dispatch(new HandleUserActionEvent(event));
+
+		if (event.action == Action.NONE) {
+			dispatch(new WalkToPointEvent("timur", view.getActorPosition("timur"), event.touchPoint));
+		}
+
     }
 
     private function onActionPicked(e:ActionPickedEvent):void {
         view.removeActionsMenu();
     }
-
-
 }
 }

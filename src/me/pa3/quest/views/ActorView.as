@@ -5,7 +5,9 @@ package me.pa3.quest.views {
 import flash.geom.Point;
 import flash.geom.Rectangle;
 
-import me.pa3.quest.vos.Path;
+	import me.pa3.quest.events.WalkFinishedViewEvent;
+
+	import me.pa3.quest.vos.Path;
 	import me.pa3.quest.vos.WayPoint;
 
 	import starling.animation.Tween;
@@ -68,6 +70,7 @@ import me.pa3.quest.vos.Path;
 				_currentWalkTween.onComplete = walkToNextPoint;
 				Starling.juggler.add(_currentWalkTween);
 			} else {
+				dispatchEvent(new WalkFinishedViewEvent(id, position));
 				switchAnimationTo("stand");
 			}
 		}
@@ -98,7 +101,6 @@ import me.pa3.quest.vos.Path;
         public function isPointInside(point:Point):Boolean {
             return (boundBox.containsPoint(point));
         }
-
 
         public function get boundBox():Rectangle {
             return new Rectangle(x+scaleX*_boundBox.x, y+scaleY*_boundBox.y,scaleX*_boundBox.width,scaleY*_boundBox.height);
